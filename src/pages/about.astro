@@ -1,77 +1,61 @@
 ---
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import '../styles/globall.css';
+import BaseLayout from "../layouts/BaseLayout.astro";
 
 const pageTitle = "私について";
 
 const identity = {
-	firstName : "Kaoru",
-	country : "Japan",
-	occupation : "Student",
-	hobbies : ["photo", "walking", "soccer"],
+  firstName: "Kaoru",
+  country: "Japan",
+  occupation: "Student",
+  hobbies: ["photo", "walking", "soccer"],
 };
 
-const skills = ["HTML", "CSS", "JavaScript", "React", "Astro", "ドキュメントの執筆"]
+const skills = ["HTML", "CSS", "JavaScript", "React", "Astro", "ドキュメントの執筆"];
+
 const happy = true;
 const finished = false;
 const goal = 3;
 
-const skillColor = "navy";
-const fontWeight = "bold";
-const textCase = "uppercase";
+const styleVars = {
+  skillColor: "navy",
+  fontWeight: "bold",
+  textCase: "uppercase",
+};
 ---
 
-<html lang="ja">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{pageTitle}</title>
-		<style define:vars={{skillColor, fontWeight, textCase}}>
-			h1 {
-				color: purple;
-				font-size: 4rem;
-			}
-			.skill {
-				color: var(--skillColor);
-				font-weight: var(--fontWeight);
-				text-transform: var(--textCase);
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
+<BaseLayout pageTitle={pageTitle}>
+  <style define:vars={styleVars}>
+    .skill {
+      color: var(--skillColor);
+      font-weight: var(--fontWeight);
+      text-transform: var(--textCase);
+    }
+  </style>
 
-		<h1>私のAstroサイト</h1>
-		<h1>{pageTitle}</h1>
-		<h2>そして私のAstroサイトについて</h2>
+  <h2>そして私のAstroサイトについて</h2>
 
-		<p>Astroのチュートリアルを進めています。これは私のウェブサイトの2ページ目です。</p>
+  <p>Astroのチュートリアルを進めています。これは私のウェブサイトの2ページ目です。</p>
+  <p>このページはチュートリアルを進めていくにつれて更新されていきます。</p>
 
-		<p>このページはチュートリアルを進めていくにつれて更新されていきます。</p>
+  <p>以下は私に関するいくつかの事実です。</p>
+  <ul>
+    <li>私の名前は {identity.firstName}</li>
+    <li>{identity.country}に住んでおり、{identity.occupation}として働いています。</li>
+    {identity.hobbies.length >= 2 && (
+      <li>
+        私の2つの趣味は {identity.hobbies[0]} と {identity.hobbies[1]} です。
+      </li>
+    )}
+  </ul>
 
-		<p>以下は私に関するいくつかの事実です。</p>
-		<ul>
-			<li>私の名前は{identity.firstName}</li>
-			<li>{identity.country}に住んでおり、{identity.occupation}として働いています。</li>
-			{identity.hobbies.length >= 2 && <li>私の2つの趣味は{identity.hobbies[0]}と{identity.hobbies[1]}です。</li>}
-		</ul>
-		<p>私のスキルは以下のとおりです。</p>
-		<ul>
-			{skills.map((skills) => <li class="skill">{skills}</li>)}
-			
-		</ul>
-			{happy && <p>Astroを学べて幸せです。</p>}
-			{finished && <p>このチュートリアルを終えました！</p>}
-			{goal === 3 ? <p>3日で終えるのが目標です。</p> : <p>3日が目標ではありません。</p>}
-		<ul>
+  <p>私のスキルは以下のとおりです。</p>
+  <ul>
+    {skills.map((skill) => (
+      <li class="skill">{skill}</li>
+    ))}
+  </ul>
 
-		</ul>
-		<Footer />
-		<script>
-            import "../scripts/menu.js";
-        </script>
-	</body>
-</html>
+  {happy && <p>Astroを学べて幸せです。</p>}
+  {finished && <p>このチュートリアルを終えました！</p>}
+  <p>{goal === 3 ? "3日で終えるのが目標です。" : "3日が目標ではありません。"}</p>
+</BaseLayout>
